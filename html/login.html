@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Portfolio Admin Login</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background: #050505;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        color: #fff;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: #00ff88;
+        filter: blur(180px);
+        opacity: 0.12;
+        top: -150px;
+        left: -150px;
+        border-radius: 50%;
+      }
+
+      body::after {
+        content: "";
+        position: absolute;
+        width: 450px;
+        height: 450px;
+        background: #6a5cff;
+        filter: blur(180px);
+        opacity: 0.12;
+        bottom: -150px;
+        right: -150px;
+        border-radius: 50%;
+      }
+
+      .container {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .login {
+        width: 420px;
+        padding: 45px;
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+      }
+
+      .logo {
+        font-size: 32px;
+        font-weight: 800;
+        margin-bottom: 15px;
+      }
+
+      .logo span {
+        color: #00ff88;
+      }
+
+      h1 {
+        font-size: 34px;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #9f9f9f;
+        line-height: 28px;
+        margin-bottom: 35px;
+      }
+
+      .input-group {
+        margin-bottom: 22px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #cfcfcf;
+      }
+
+      .input {
+        display: flex;
+        align-items: center;
+        background: #111;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 15px;
+        border-radius: 14px;
+        transition: 0.35s;
+      }
+
+      .input:focus-within {
+        border-color: #00ff88;
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+      }
+
+      .input i {
+        color: #00ff88;
+        font-size: 20px;
+        margin-right: 12px;
+      }
+
+      .input input {
+        flex: 1;
+        background-color: #050505;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 16px;
+      }
+
+      .input input:focus-within {
+        /* border: 1px solid #00ff88; */
+        background-color: rgba(0, 255, 136, 0.08);
+      }
+
+      .toggle {
+        cursor: pointer;
+      }
+
+      button {
+        width: 100%;
+        padding: 18px;
+        border: none;
+        border-radius: 14px;
+        margin-top: 15px;
+        cursor: pointer;
+        font-size: 17px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #000000, #00ff88, #000000);
+        color: white;
+        transition: 0.4s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 255, 136, 0.35);
+      }
+
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        color: #888;
+        font-size: 14px;
+      }
+
+      .footer a {
+        color: #00ff88;
+        text-decoration: none;
+      }
+
+      @media (max-width: 500px) {
+        .login {
+          width: 100%;
+          padding: 35px 25px;
+        }
+        h1 {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="login">
+        <h1>Welcome Back</h1>
+
+        <p class="subtitle">
+          Login to manage your portfolio projects and dashboard.
+        </p>
+
+        <form id="loginForm" method="post" action="/login">
+          <div class="input-group">
+            <label>Email Address</label>
+
+            <div class="input">
+              <i class="ri-mail-line"></i>
+
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Password</label>
+
+            <div class="input">
+              <i class="ri-lock-line"></i>
+
+              <input
+                name="password"
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+              />
+
+              <i class="ri-eye-line toggle" id="togglePassword"></i>
+            </div>
+          </div>
+
+          <button type="submit">
+            Login
+
+            <i class="ri-arrow-right-line"></i>
+          </button>
+        </form>
+
+        <div class="footer">© 2026 <a href="#">EKECIN TECHNOLOGIES</a></div>
+      </div>
+    </div>
+
+    <script>
+      const password = document.getElementById("password");
+
+      const toggle = document.getElementById("togglePassword");
+
+      toggle.addEventListener("click", () => {
+        if (password.type === "password") {
+          password.type = "text";
+
+          toggle.classList.remove("ri-eye-line");
+
+          toggle.classList.add("ri-eye-off-line");
+        } else {
+          password.type = "password";
+
+          toggle.classList.remove("ri-eye-off-line");
+
+          toggle.classList.add("ri-eye-line");
+        }
+      });
+    </script>
+  </body>
+</html>
