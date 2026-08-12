@@ -49,5 +49,5 @@ async function loadProjects() {
     // Duplicate for infinite scrolling
     track.innerHTML = html + html;
 }
-// alert("hey");
+
 loadProjects();
