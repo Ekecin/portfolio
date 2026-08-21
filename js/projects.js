@@ -49,5 +49,10 @@ async function loadProjects() {
     // Duplicate for infinite scrolling
     track.innerHTML = html + html;
 }
+<<<<<<< HEAD
 // alert("hey");
 loadProjects();
+=======
+
+loadProjects();
+>>>>>>> 4ca6fbc111a54b6f0756ca9a32333596b42d0e8d
