@@ -1,58 +1,95 @@
 import supabase from "../database/supabase.js";
 
-
 const track = document.getElementById("projectsTrack");
 
 async function loadProjects() {
-    const { data: projects, error } = await supabase
-        .from("projects")
-        .select("*")
-        .order("created_at", { ascending: false });
+    try {
+        const { data: projects, error } = await supabase
+            .from("projects")
+            .select("*")
+            .order("created_at", { ascending: false });
 
-    if (error) {
-        console.error(error);
-        return;
-    }
+        if (error) {
+            console.error("Error loading projects:", error);
+            return;
+        }
 
-    let html = "";
+        if (!projects || projects.length === 0) {
+            track.innerHTML = `
+                <p class="no-projects">
+                    No projects available.
+                </p>
+            `;
+            return;
+        }
 
-    projects.forEach(project => {
+        let html = "";
 
-                html += `
-            <div class="project-card">
+        projects.forEach(project => {
+            const technologies = Array.isArray(project.technologies)
+                ? project.technologies
+                : String(project.technologies || "")
+                    .split(",")
+                    .map(tech => tech.trim())
+                    .filter(Boolean);
 
-                <h3>${project.title}</h3>
+            html += `
+                <div class="project-card">
 
-                <p>${project.description}</p>
+                    <h3>${project.title || ""}</h3>
 
-                <div class="tech">
-                    ${project.technologies
-                        .map(tech => `<span>${tech}</span>`)
-                        .join("")}
+                    <p>${project.description || ""}</p>
+
+                    <div class="tech">
+                        ${technologies
+                            .map(tech => `<span>${tech}</span>`)
+                            .join("")}
+                    </div>
+
+                    <div class="links">
+
+                        ${
+                            project.github
+                                ? `
+                                    <a href="${project.github}"
+                                       target="_blank"
+                                       rel="noopener noreferrer">
+                                        GitHub
+                                    </a>
+                                  `
+                                : ""
+                        }
+
+                        ${
+                            project.live_demo
+                                ? `
+                                    <a href="${project.live_demo}"
+                                       target="_blank"
+                                       rel="noopener noreferrer">
+                                        Live Demo
+                                    </a>
+                                  `
+                                : ""
+                        }
+
+                    </div>
+
                 </div>
+            `;
+        });
 
-                <div class="links">
-                    <a href="${project.github}" target="_blank">
-                        GitHub
-                    </a>
+        // Duplicate cards for the infinite horizontal animation
+        track.innerHTML = html + html;
 
-                    <a href="${project.live_demo}" target="_blank">
-                        Live Demo
-                    </a>
-                </div>
+    } catch (error) {
+        console.error("Unexpected error:", error);
 
-            </div>
+        track.innerHTML = `
+            <p class="no-projects">
+                Unable to load projects.
+            </p>
         `;
-
-    });
-
-    // Duplicate for infinite scrolling
-    track.innerHTML = html + html;
+    }
 }
-<<<<<<< HEAD
-// alert("hey");
-loadProjects();
-=======
 
 loadProjects();
->>>>>>> 4ca6fbc111a54b6f0756ca9a32333596b42d0e8d
